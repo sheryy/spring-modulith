@@ -1,27 +1,26 @@
 package dev.sheraz.events.post.domain;
 
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.IntStream;
 
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class PostCreateJob {
-    private final int MAX_POSTS = 10;
+class PostCreateJob {
+    private static final int MAX_POSTS = 10;
     private final PostService postService;
 
-    @Scheduled(initialDelay = 2000, fixedDelay = 15_000)
     @Transactional
+    @Scheduled(initialDelay = 2000, fixedDelay = 15_000)
     public void run() {
         AtomicLong sequence = new AtomicLong(Instant.now().toEpochMilli());
         List<Post> posts = IntStream.range(0, getMaxPosts())

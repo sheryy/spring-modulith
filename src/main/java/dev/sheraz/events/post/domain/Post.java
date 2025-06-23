@@ -1,26 +1,25 @@
 package dev.sheraz.events.post.domain;
 
-import java.time.LocalDateTime;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "posts")
 @Getter
 @Setter
 @Accessors(fluent = true, chain = true)
-public class Post {
+class Post {
+    public enum Status {
+        CREATED,
+        PUBLISHED,
+        ARCHIVED
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_seq")
@@ -31,7 +30,8 @@ public class Post {
 
     private String content;
 
-    private Boolean isPublished = false;
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.CREATED;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

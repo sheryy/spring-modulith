@@ -1,5 +1,5 @@
 package dev.sheraz.events.post.event;
 
-public record PostCreated(Integer id) {
+public record PostPublished(Integer id) {
 
 }

@@ -1,2 +1,4 @@
-@org.springframework.modulith.NamedInterface("PostEvents")
+@NamedInterface("PostEvents")
 package dev.sheraz.events.post.event;
+
+import org.springframework.modulith.NamedInterface;
